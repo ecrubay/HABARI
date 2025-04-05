@@ -1,0 +1,198 @@
+# HABARI 2.0: Holistic Animal Bioacoustic Response Interface
+## Advanced System Architecture
+
+### 1. Core System Components
+
+#### 1.1 Audio Processing Pipeline
+```
+core/
+├── audio_processor/
+│   ├── __init__.py
+│   ├── feature_extraction.py       # MFCC, spectrograms, etc.
+│   ├── noise_reduction.py          # Environmental noise filtering
+│   ├── segmentation.py             # Call/sound segmentation
+│   └── preprocessing.py            # Resampling, normalization
+├── models/
+│   ├── __init__.py
+│   ├── acoustic_embedding.py       # Convert sounds to embeddings
+│   ├── classification.py           # Species/call classification
+│   ├── detection.py                # Sound event detection
+│   └── translation.py              # Cross-species "translation"
+└── inference/
+    ├── __init__.py
+    ├── realtime_processor.py       # Stream processing
+    └── batch_processor.py          # Offline processing
+```
+
+#### 1.2 Species-Specific Modules
+```
+species/
+├── __init__.py                     # Species registry
+├── base.py                         # Abstract species class
+├── birds/
+│   ├── __init__.py
+│   ├── models.py                   # Bird-specific models
+│   ├── vocalization_types.py       # Songs, calls, etc.
+│   └── species_catalog.py          # Bird species data
+├── dolphins/
+│   ├── __init__.py
+│   ├── models.py                   # Dolphin-specific models
+│   ├── vocalization_types.py       # Clicks, whistles, etc.
+│   └── species_catalog.py          # Dolphin species data
+├── elephants/
+│   ├── __init__.py
+│   ├── models.py                   # Elephant-specific models
+│   ├── vocalization_types.py       # Rumbles, trumpets, etc.
+│   └── species_catalog.py          # Elephant species data
+└── registry.py                     # Auto-register species modules
+```
+
+#### 1.3 Memory and Knowledge System
+```
+memory/
+├── __init__.py
+├── database/
+│   ├── __init__.py
+│   ├── sqlite_handler.py           # Local DB for recordings
+│   └── cloud_storage.py            # Remote storage integration
+├── knowledge_base/
+│   ├── __init__.py
+│   ├── ontology.py                 # Bioacoustic knowledge graph
+│   └── research_integration.py     # Import published findings
+└── pattern_recognition/
+    ├── __init__.py
+    ├── sequential_patterns.py      # Detect temporal patterns
+    └── contextual_patterns.py      # Environment-based patterns
+```
+
+#### 1.4 Simulation & Training
+```
+simulation/
+├── __init__.py
+├── environment/
+│   ├── __init__.py
+│   ├── acoustic_environment.py     # Simulate natural acoustics
+│   └── noise_generator.py          # Realistic noise modeling
+├── data_generation/
+│   ├── __init__.py
+│   ├── augmentation.py             # Audio augmentation
+│   └── synthetic_calls.py          # Generate synthetic samples
+└── training/
+    ├── __init__.py
+    ├── trainer.py                  # Model training framework
+    └── evaluation.py               # Performance metrics
+```
+
+#### 1.5 BCI (Brain-Computer Interface)
+```
+bci/
+├── __init__.py
+├── signal_processing/
+│   ├── __init__.py
+│   ├── eeg_handler.py              # EEG data processing
+│   └── signal_cleaner.py           # Artifact removal
+├── interpretation/
+│   ├── __init__.py
+│   ├── decoder.py                  # Brain signal decoder
+│   └── mapping.py                  # Map signals to meanings
+└── feedback/
+    ├── __init__.py
+    └── response_generator.py       # Generate responses
+```
+
+### 2. User Interface & Data Visualization
+```
+dashboard/
+├── __init__.py
+├── web/
+│   ├── __init__.py
+│   ├── app.py                      # Flask/FastAPI web app
+│   ├── routes.py                   # API endpoints
+│   └── static/                     # Frontend assets
+├── visualizations/
+│   ├── __init__.py
+│   ├── spectrograms.py             # Advanced spectrogram viz
+│   ├── patterns.py                 # Pattern visualization
+│   └── comparisons.py              # Cross-species comparison
+└── reporting/
+    ├── __init__.py
+    ├── insights.py                 # Automated insights
+    └── export.py                   # Export formats (PDF, CSV)
+```
+
+### 3. System Infrastructure
+```
+utils/
+├── __init__.py
+├── config.py                       # System configuration
+├── logging.py                      # Advanced logging
+├── file_handling.py                # Audio file operations
+├── gps.py                          # Geolocation utilities
+├── weather.py                      # Weather data integration
+└── devices/
+    ├── __init__.py
+    ├── microphone.py               # Microphone handling
+    ├── recorder.py                 # Recording management
+    └── hardware.py                 # Hardware interfacing
+```
+
+### 4. Validation & Testing
+```
+validation/
+├── __init__.py
+├── metrics/
+│   ├── __init__.py
+│   ├── accuracy.py                 # Classification metrics
+│   ├── detection.py                # Detection metrics
+│   └── translation.py              # Translation quality
+├── testing/
+│   ├── __init__.py
+│   ├── unit_tests/                 # Unit test cases
+│   └── integration_tests/          # End-to-end tests
+└── benchmarks/
+    ├── __init__.py
+    ├── performance.py              # Speed benchmarks
+    └── resource_usage.py           # CPU/memory usage
+```
+
+### 5. Deployment & Operations
+```
+deployment/
+├── __init__.py
+├── docker/
+│   ├── Dockerfile                  # Containerization
+│   └── docker-compose.yml          # Multi-container setup
+├── kubernetes/
+│   ├── deployment.yaml             # K8s deployment
+│   └── service.yaml                # K8s service
+└── monitoring/
+    ├── __init__.py
+    ├── health_checks.py            # System health monitoring
+    └── alerts.py                   # Alert configuration
+```
+
+### 6. API & Integration
+```
+api/
+├── __init__.py
+├── rest/
+│   ├── __init__.py
+│   ├── endpoints.py                # REST API definition
+│   └── authentication.py           # API security
+├── websocket/
+│   ├── __init__.py
+│   └── realtime.py                 # Live data streams
+└── external/
+    ├── __init__.py
+    ├── weather_api.py              # Weather service
+    ├── gis_api.py                  # Geographic information
+    └── research_api.py             # Research database access
+```
+
+### 7. Enhanced Entry Points
+```
+app.py                              # Main application entry
+cli.py                              # Command-line interface
+worker.py                           # Background task processor
+config.yaml                         # System configuration
+```

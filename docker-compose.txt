@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  habari-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: habari:2.0
+    container_name: habari-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - HABARI_ENV=production
+      - LOG_LEVEL=INFO
+      - DATABASE_URL=mongodb://habari-db:27017/habari
+      - REDIS_URL=redis://habari-cache:6379/0
+    depends_on:
+      - habari-db
+      - habari-cache
+    networks:
+      - habari-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  habari-db:
+    image: mongo:5.0
+    container_name: habari-db
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - habari-network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=habari
+      - MONGO_INITDB_ROOT_PASSWORD=habaripassword
+
+  habari-cache:
+    image: redis:6.2-alpine
+    container_name: habari-cache
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - habari-network
+    command: redis-server --appendonly yes
+
+  habari-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: habari:2.0
+    container_name: habari-worker
+    command: ["python", "worker.py"]
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - HABARI_ENV=production
+      - LOG_LEVEL=INFO 
+      - DATABASE_URL=mongodb://habari-db:27017/habari
+      - REDIS_URL=redis://habari-cache:6379/0
+    depends_on:
+      - habari-db
+      - habari-cache
+    networks:
+      - habari-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  habari-notebook:
+    image: jupyter/tensorflow-notebook:latest
+    container_name: habari-notebook
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    networks:
+      - habari-network
+
+networks:
+  habari-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  redis_data:

@@ -1,6 +1,0 @@
-
-librosa
-transformers
-torch
-datasets
-numpy

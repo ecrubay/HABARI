@@ -1,1 +1,0 @@
-This folder is for storing test audio samples (.wav) and metadata used in training or evaluation.

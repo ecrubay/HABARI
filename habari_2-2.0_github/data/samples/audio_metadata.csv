@@ -1,4 +1,0 @@
-
-sample_id,species,filepath,timestamp
-1,bird,data/samples/bird_call.wav,2025-04-10 10:00:00
-2,elephant,data/samples/elephant_rumble.wav,2025-04-10 11:00:00
